@@ -30,6 +30,10 @@ class CmsUser
     public $id;
 
     /** @var string */
+    #[Column(type: 'binary', length: 50, nullable: true)]
+    public $reference;
+
+    /** @var string */
     #[Column(type: 'string', length: 50, nullable: true)]
     public $status;
 
@@ -81,9 +85,9 @@ class CmsUser
     public function __construct()
     {
         $this->phonenumbers = new ArrayCollection();
-        $this->articles     = new ArrayCollection();
-        $this->groups       = new ArrayCollection();
-        $this->tags         = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): int

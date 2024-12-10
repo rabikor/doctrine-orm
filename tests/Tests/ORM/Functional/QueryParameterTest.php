@@ -9,7 +9,11 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Tests\Models\CMS\CmsUser;
 use Doctrine\Tests\OrmFunctionalTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+
+use function hex2bin;
+use function sprintf;
 
 #[Group('GH-11278')]
 final class QueryParameterTest extends OrmFunctionalTestCase
@@ -22,15 +26,18 @@ final class QueryParameterTest extends OrmFunctionalTestCase
 
         parent::setUp();
 
-        $user            = new CmsUser();
-        $user->name      = 'John Doe';
-        $user->username  = 'john';
-        $user2           = new CmsUser();
-        $user2->name     = 'Jane Doe';
-        $user2->username = 'jane';
-        $user3           = new CmsUser();
-        $user3->name     = 'Just Bill';
-        $user3->username = 'bill';
+        $user             = new CmsUser();
+        $user->reference  = hex2bin('1');
+        $user->name       = 'John Doe';
+        $user->username   = 'john';
+        $user2            = new CmsUser();
+        $user2->reference = hex2bin('2');
+        $user2->name      = 'Jane Doe';
+        $user2->username  = 'jane';
+        $user3            = new CmsUser();
+        $user3->reference = hex2bin('3');
+        $user3->name      = 'Just Bill';
+        $user3->username  = 'bill';
 
         $this->_em->persist($user);
         $this->_em->persist($user2);
@@ -94,31 +101,27 @@ final class QueryParameterTest extends OrmFunctionalTestCase
         self::assertSame([['name' => 'John Doe']], $result);
     }
 
-    public function testArrayParameterTypeInBuilder(): void
+    #[DataProvider('provideArrayParameters')]
+    public function testArrayParameterTypeInQuery(string $field, ArrayParameterType $type, array $values): void
     {
         $result = $this->_em->createQueryBuilder()
             ->from(CmsUser::class, 'u')
             ->select('u.name')
-            ->where('u.username IN (:usernames)')
-            ->orderBy('u.username')
-            ->setParameter('usernames', ['john', 'jane'], ArrayParameterType::STRING)
+            ->where(sprintf('u.%s IN (:values)', $field))
+            ->orderBy(sprintf('u.%s', $field))
+            ->setParameter('values', $values, $type)
             ->getQuery()
             ->getArrayResult();
 
         self::assertSame([['name' => 'Jane Doe'], ['name' => 'John Doe']], $result);
     }
 
-    public function testArrayParameterTypeInQuery(): void
+    public static function provideArrayParameters(): array
     {
-        $result = $this->_em->createQueryBuilder()
-            ->from(CmsUser::class, 'u')
-            ->select('u.name')
-            ->where('u.username IN (:usernames)')
-            ->orderBy('u.username')
-            ->getQuery()
-            ->setParameter('usernames', ['john', 'jane'], ArrayParameterType::STRING)
-            ->getArrayResult();
-
-        self::assertSame([['name' => 'Jane Doe'], ['name' => 'John Doe']], $result);
+        return [
+            'string' => ['username', ArrayParameterType::STRING, ['john', 'jane']],
+            'binary' => ['reference', ArrayParameterType::BINARY, [hex2bin('1'), hex2bin('2')]],
+            'integer' => ['id' => ArrayParameterType::INTEGER, [1, 2]],
+        ];
     }
 }
