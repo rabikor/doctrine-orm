@@ -12,6 +12,7 @@ parameters:
         -
             message: '~^Method Doctrine\\ORM\\Query\\AST\\Functions\\TrimFunction::getTrimMode\(\) never returns .* so it can be removed from the return type\.$~'
             path: src/Query/AST/Functions/TrimFunction.php
+
         -
             message: '~.*getTrimExpression.*expects int.*~'
             path: src/Query/AST/Functions/TrimFunction.php
