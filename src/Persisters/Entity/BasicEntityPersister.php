@@ -1936,7 +1936,7 @@ class BasicEntityPersister implements EntityPersister
      * @throws QueryException
      * @throws Exception
      */
-    private function getArrayBindingType(ParameterType|int|string $type): ArrayParameterType
+    private function getArrayBindingType(ParameterType|int|string $type): ArrayParameterType|int
     {
         if (! $type instanceof ParameterType) {
             $type = Type::getType((string) $type)->getBindingType();
