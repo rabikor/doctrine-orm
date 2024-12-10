@@ -37,3 +37,8 @@ parameters:
             message: '#Negated boolean expression is always false\.#'
             paths:
                 - src/Mapping/Driver/AttributeDriver.php
+
+        # Compatibility with Persistence 3
+        -
+            message: '#Expression on left side of \?\? is not nullable.#'
+            path: src/Mapping/Driver/AttributeDriver.php

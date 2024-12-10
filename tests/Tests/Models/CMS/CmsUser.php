@@ -41,15 +41,15 @@ class CmsUser
     #[Column(type: 'string', length: 255, unique: true)]
     public $username;
 
-    /** @psalm-var string|null */
+    /** @phpstan-var string|null */
     #[Column(type: 'string', length: 255)]
     public $name;
 
-    /** @psalm-var Collection<int, CmsPhonenumber> */
+    /** @phpstan-var Collection<int, CmsPhonenumber> */
     #[OneToMany(targetEntity: 'CmsPhonenumber', mappedBy: 'user', cascade: ['persist'], orphanRemoval: true)]
     public $phonenumbers;
 
-    /** @psalm-var Collection<int, CmsArticle> */
+    /** @phpstan-var Collection<int, CmsArticle> */
     #[OneToMany(targetEntity: 'CmsArticle', mappedBy: 'user', cascade: ['detach'])]
     public $articles;
 
@@ -62,7 +62,7 @@ class CmsUser
     #[JoinColumn(referencedColumnName: 'id', nullable: true)]
     public $email;
 
-    /** @psalm-var Collection<int, CmsGroup> */
+    /** @phpstan-var Collection<int, CmsGroup> */
     #[JoinTable(name: 'cms_users_groups')]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
@@ -119,7 +119,7 @@ class CmsUser
         $phone->setUser($this);
     }
 
-    /** @psalm-return Collection<int, CmsPhonenumber> */
+    /** @phpstan-return Collection<int, CmsPhonenumber> */
     public function getPhonenumbers(): Collection
     {
         return $this->phonenumbers;
@@ -137,7 +137,7 @@ class CmsUser
         $group->addUser($this);
     }
 
-    /** @psalm-return Collection<int, CmsGroup> */
+    /** @phpstan-return Collection<int, CmsGroup> */
     public function getGroups(): Collection
     {
         return $this->groups;

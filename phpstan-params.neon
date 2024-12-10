@@ -1,5 +1,5 @@
 parameters:
-    level: 5
+    level: 7
     paths:
         - src
         - tests/StaticAnalysis
@@ -8,4 +8,4 @@ parameters:
     earlyTerminatingMethodCalls:
         Doctrine\ORM\Query\Parser:
             - syntaxError
-    phpVersion: 80200
+    phpVersion: 80400

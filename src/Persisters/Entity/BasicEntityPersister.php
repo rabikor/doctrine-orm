@@ -129,7 +129,7 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Queued inserts.
      *
-     * @psalm-var array<int, object>
+     * @phpstan-var array<int, object>
      */
     protected array $queuedInserts = [];
 
@@ -343,7 +343,7 @@ class BasicEntityPersister implements EntityPersister
      * @param mixed[] $id
      *
      * @return list<ParameterType|int|string>
-     * @psalm-return list<ParameterType::*|ArrayParameterType::*|string>
+     * @phpstan-return list<ParameterType::*|ArrayParameterType::*|string>
      */
     final protected function extractIdentifierTypes(array $id, ClassMetadata $versionedClass): array
     {
@@ -587,7 +587,7 @@ class BasicEntityPersister implements EntityPersister
      * @param bool   $isInsert Whether the data to be prepared refers to an insert statement.
      *
      * @return mixed[][] The prepared data.
-     * @psalm-return array<string, array<array-key, mixed|null>>
+     * @phpstan-return array<string, array<array-key, mixed|null>>
      */
     protected function prepareUpdateData(object $entity, bool $isInsert = false): array
     {
@@ -706,7 +706,7 @@ class BasicEntityPersister implements EntityPersister
      * @param object $entity The entity for which to prepare the data.
      *
      * @return mixed[][] The prepared data for the tables to update.
-     * @psalm-return array<string, mixed[]>
+     * @phpstan-return array<string, mixed[]>
      */
     protected function prepareInsertData(object $entity): array
     {
@@ -1167,7 +1167,7 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Gets the ORDER BY SQL snippet for ordered collections.
      *
-     * @psalm-param array<string, string> $orderBy
+     * @phpstan-param array<string, string> $orderBy
      *
      * @throws InvalidOrientation
      * @throws InvalidFindByCall
@@ -1449,7 +1449,7 @@ class BasicEntityPersister implements EntityPersister
      * Subclasses should override this method to alter or change the list of
      * columns placed in the INSERT statements used by the persister.
      *
-     * @psalm-return list<string>
+     * @phpstan-return list<string>
      */
     protected function getInsertColumnList(): array
     {
@@ -1564,7 +1564,7 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Gets the FROM and optionally JOIN conditions to lock the entity managed by this persister.
      *
-     * @psalm-param LockMode::* $lockMode
+     * @phpstan-param LockMode::* $lockMode
      */
     protected function getLockTablesSql(LockMode|int $lockMode): string
     {
@@ -1666,7 +1666,7 @@ class BasicEntityPersister implements EntityPersister
      * Builds the left-hand-side of a where condition statement.
      *
      * @return string[]
-     * @psalm-return list<string>
+     * @phpstan-return list<string>
      *
      * @throws InvalidFindByCall
      * @throws UnrecognizedField
@@ -1741,7 +1741,7 @@ class BasicEntityPersister implements EntityPersister
      * Subclasses are supposed to override this method if they intend to change
      * or alter the criteria by which entities are selected.
      *
-     * @psalm-param array<string, mixed> $criteria
+     * @phpstan-param array<string, mixed> $criteria
      */
     protected function getSelectConditionSQL(array $criteria, AssociationMapping|null $assoc = null): string
     {
@@ -1865,7 +1865,7 @@ class BasicEntityPersister implements EntityPersister
      *                             - class to which the field belongs to
      *
      * @return mixed[][]
-     * @psalm-return array{0: array, 1: list<ParameterType::*|ArrayParameterType::*|string>}
+     * @phpstan-return array{0: array, 1: list<ParameterType::*|ArrayParameterType::*|string>}
      */
     private function expandToManyParameters(array $criteria): array
     {
@@ -1888,7 +1888,7 @@ class BasicEntityPersister implements EntityPersister
      * Infers field types to be used by parameter type casting.
      *
      * @return list<ParameterType|ArrayParameterType|int|string>
-     * @psalm-return list<ParameterType::*|ArrayParameterType::*|string>
+     * @phpstan-return list<ParameterType::*|ArrayParameterType::*|string>
      *
      * @throws QueryException
      */
@@ -1974,7 +1974,7 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Retrieves an individual parameter value.
      *
-     * @psalm-return list<mixed>
+     * @phpstan-return list<mixed>
      */
     private function getIndividualValue(mixed $value): array
     {
@@ -2105,7 +2105,7 @@ class BasicEntityPersister implements EntityPersister
 
     /**
      * @return string[]
-     * @psalm-return list<string>
+     * @phpstan-return list<string>
      */
     protected function getClassIdentifiersTypes(ClassMetadata $class): array
     {

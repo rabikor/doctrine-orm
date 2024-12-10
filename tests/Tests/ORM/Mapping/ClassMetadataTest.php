@@ -56,6 +56,7 @@ use ReflectionClass;
 use stdClass;
 
 use function assert;
+use function class_exists;
 use function count;
 use function serialize;
 use function str_contains;
@@ -989,6 +990,10 @@ class ClassMetadataTest extends OrmTestCase
 
     public function testWakeupReflectionWithEmbeddableAndStaticReflectionService(): void
     {
+        if (! class_exists(StaticReflectionService::class)) {
+            self::markTestSkipped('This test is not supported by the current installed doctrine/persistence version');
+        }
+
         $classMetadata = new ClassMetadata(TestEntity1::class);
 
         $classMetadata->mapEmbedded(
@@ -1105,6 +1110,14 @@ class ClassMetadataTest extends OrmTestCase
             'Doctrine\Tests\Models\Customer\InternalCustomer',
             $xmlElement->children()->{'discriminator-map'}->{'discriminator-mapping'}[0]->attributes()['value'],
         );
+    }
+
+    public function testDiscriminatorMapWithSameClassMultipleTimesDeprecated(): void
+    {
+        $this->expectDeprecationWithIdentifier('https://github.com/doctrine/orm/issues/3519');
+
+        $cm = new ClassMetadata(CMS\CmsUser::class);
+        $cm->setDiscriminatorMap(['foo' => CMS\CmsUser::class, 'bar' => CMS\CmsUser::class]);
     }
 }
 
