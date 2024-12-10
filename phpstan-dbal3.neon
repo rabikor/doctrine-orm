@@ -38,10 +38,6 @@ parameters:
             path: src/Mapping/Driver/AttributeDriver.php
 
         -
-            message: '~^Method Doctrine\\ORM\\Persisters\\Entity\\BasicEntityPersister\:\:getArrayBindingType\(\) never returns .* so it can be removed from the return type\.$~'
-            path: src/Persisters/Entity/BasicEntityPersister.php
-
-        -
             message: '~getTypes.*should return~'
             path: src/Persisters/Entity/BasicEntityPersister.php
 
