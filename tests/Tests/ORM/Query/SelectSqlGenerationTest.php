@@ -53,10 +53,9 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function assertSqlGeneration(
         string $dqlToBeTested,
         string $sqlToBeConfirmed,
-        array  $queryHints = [],
-        array  $queryParams = [],
-    ): void
-    {
+        array $queryHints = [],
+        array $queryParams = [],
+    ): void {
         $query = $this->entityManager->createQuery($dqlToBeTested);
         $query->setHydrationMode($this->hydrationMode);
 
@@ -86,10 +85,9 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function assertInvalidSqlGeneration(
         string $dqlToBeTested,
         string $expectedException,
-        array  $queryHints = [],
-        array  $queryParams = [],
-    ): void
-    {
+        array $queryHints = [],
+        array $queryParams = [],
+    ): void {
         $this->expectException($expectedException);
 
         $query = $this->entityManager->createQuery($dqlToBeTested);
@@ -669,7 +667,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         // "Get all users who have $phone as a phonenumber." (*cough* doesnt really make sense...)
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.phonenumbers');
 
-        $phone = new CmsPhonenumber();
+        $phone              = new CmsPhonenumber();
         $phone->phonenumber = 101;
         $q->setParameter('param', $phone);
 
@@ -684,7 +682,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         // "Get all users who are members of $group."
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.groups');
 
-        $group = new CmsGroup();
+        $group     = new CmsGroup();
         $group->id = 101;
         $q->setParameter('param', $group);
 
@@ -698,9 +696,9 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.groups');
 
-        $group = new CmsGroup();
-        $group->id = 101;
-        $group2 = new CmsGroup();
+        $group      = new CmsGroup();
+        $group->id  = 101;
+        $group2     = new CmsGroup();
         $group2->id = 105;
         $q->setParameter('param', [$group, $group2]);
 
@@ -714,7 +712,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         // "Get all persons who have $person as a friend."
         // Tough one: Many-many self-referencing ("friends") with class table inheritance
-        $q = $this->entityManager->createQuery('SELECT p FROM Doctrine\Tests\Models\Company\CompanyPerson p WHERE :param MEMBER OF p.friends');
+        $q      = $this->entityManager->createQuery('SELECT p FROM Doctrine\Tests\Models\Company\CompanyPerson p WHERE :param MEMBER OF p.friends');
         $person = new CompanyPerson();
         $this->entityManager->getClassMetadata($person::class)->setIdentifierValues($person, ['id' => 101]);
         $q->setParameter('param', $person);
@@ -2183,8 +2181,7 @@ class DDC1474Entity
     public function __construct(
         #[Column(type: 'float')]
         private string $value,
-    )
-    {
+    ) {
     }
 
     public function getId(): int
