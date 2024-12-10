@@ -85,9 +85,9 @@ class CmsUser
     public function __construct()
     {
         $this->phonenumbers = new ArrayCollection();
-        $this->articles = new ArrayCollection();
-        $this->groups = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->articles     = new ArrayCollection();
+        $this->groups       = new ArrayCollection();
+        $this->tags         = new ArrayCollection();
     }
 
     public function getId(): int
