@@ -53,9 +53,10 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function assertSqlGeneration(
         string $dqlToBeTested,
         string $sqlToBeConfirmed,
-        array $queryHints = [],
-        array $queryParams = [],
-    ): void {
+        array  $queryHints = [],
+        array  $queryParams = [],
+    ): void
+    {
         $query = $this->entityManager->createQuery($dqlToBeTested);
         $query->setHydrationMode($this->hydrationMode);
 
@@ -85,9 +86,10 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function assertInvalidSqlGeneration(
         string $dqlToBeTested,
         string $expectedException,
-        array $queryHints = [],
-        array $queryParams = [],
-    ): void {
+        array  $queryHints = [],
+        array  $queryParams = [],
+    ): void
+    {
         $this->expectException($expectedException);
 
         $query = $this->entityManager->createQuery($dqlToBeTested);
@@ -136,7 +138,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_',
         );
     }
 
@@ -168,7 +170,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE NOT EXISTS (SELECT p.phonenumber FROM Doctrine\Tests\Models\CMS\CmsPhonenumber p WHERE p.phonenumber = 1234)',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE NOT EXISTS (SELECT c1_.phonenumber FROM cms_phonenumbers c1_ WHERE c1_.phonenumber = 1234)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE NOT EXISTS (SELECT c1_.phonenumber FROM cms_phonenumbers c1_ WHERE c1_.phonenumber = 1234)',
         );
     }
 
@@ -184,7 +186,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, p FROM Doctrine\Tests\Models\CMS\CmsUser u, Doctrine\Tests\Models\CMS\CmsPhonenumber p WHERE u = p.user',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c1_.phonenumber AS phonenumber_4, c0_.email_id AS email_id_5, c1_.user_id AS user_id_6 FROM cms_users c0_, cms_phonenumbers c1_ WHERE c0_.id = c1_.user_id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c1_.phonenumber AS phonenumber_5, c0_.email_id AS email_id_6, c1_.user_id AS user_id_7 FROM cms_users c0_, cms_phonenumbers c1_ WHERE c0_.id = c1_.user_id',
         );
     }
 
@@ -192,7 +194,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, p FROM Doctrine\Tests\Models\CMS\CmsUser u JOIN Doctrine\Tests\Models\CMS\CmsPhonenumber p WITH u = p.user',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c1_.phonenumber AS phonenumber_4, c0_.email_id AS email_id_5, c1_.user_id AS user_id_6 FROM cms_users c0_ INNER JOIN cms_phonenumbers c1_ ON (c0_.id = c1_.user_id)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c1_.phonenumber AS phonenumber_5, c0_.email_id AS email_id_6, c1_.user_id AS user_id_7 FROM cms_users c0_ INNER JOIN cms_phonenumbers c1_ ON (c0_.id = c1_.user_id)',
         );
     }
 
@@ -218,7 +220,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, p FROM Doctrine\Tests\Models\CMS\CmsUser u JOIN u.phonenumbers p',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c1_.phonenumber AS phonenumber_4, c0_.email_id AS email_id_5, c1_.user_id AS user_id_6 FROM cms_users c0_ INNER JOIN cms_phonenumbers c1_ ON c0_.id = c1_.user_id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c1_.phonenumber AS phonenumber_5, c0_.email_id AS email_id_6, c1_.user_id AS user_id_7 FROM cms_users c0_ INNER JOIN cms_phonenumbers c1_ ON c0_.id = c1_.user_id',
         );
     }
 
@@ -386,7 +388,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE ((u.id + 5000) * u.id + 3) < 10000000',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE ((c0_.id + 5000) * c0_.id + 3) < 10000000',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE ((c0_.id + 5000) * c0_.id + 3) < 10000000',
         );
     }
 
@@ -394,7 +396,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, a FROM Doctrine\Tests\Models\CMS\CmsUser u, Doctrine\Tests\Models\CMS\CmsArticle a JOIN a.user u2 WHERE u.id = u2.id',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c1_.id AS id_4, c1_.topic AS topic_5, c1_.text AS text_6, c1_.version AS version_7, c0_.email_id AS email_id_8, c1_.user_id AS user_id_9 FROM cms_users c0_, cms_articles c1_ INNER JOIN cms_users c2_ ON c1_.user_id = c2_.id WHERE c0_.id = c2_.id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c1_.id AS id_5, c1_.topic AS topic_6, c1_.text AS text_7, c1_.version AS version_8, c0_.email_id AS email_id_9, c1_.user_id AS user_id_10 FROM cms_users c0_, cms_articles c1_ INNER JOIN cms_users c2_ ON c1_.user_id = c2_.id WHERE c0_.id = c2_.id',
         );
     }
 
@@ -402,7 +404,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, a FROM Doctrine\Tests\Models\CMS\CmsUser u, Doctrine\Tests\Models\CMS\CmsArticle a WHERE u.id = a.user',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c1_.id AS id_4, c1_.topic AS topic_5, c1_.text AS text_6, c1_.version AS version_7, c0_.email_id AS email_id_8, c1_.user_id AS user_id_9 FROM cms_users c0_, cms_articles c1_ WHERE c0_.id = c1_.user_id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c1_.id AS id_5, c1_.topic AS topic_6, c1_.text AS text_7, c1_.version AS version_8, c0_.email_id AS email_id_9, c1_.user_id AS user_id_10 FROM cms_users c0_, cms_articles c1_ WHERE c0_.id = c1_.user_id',
         );
     }
 
@@ -423,11 +425,11 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u LEFT JOIN u.articles a WITH a.topic LIKE '%foo%'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE '%foo%')",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE '%foo%')",
         );
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u INNER JOIN u.articles a WITH a.topic LIKE '%foo%'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ INNER JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE '%foo%')",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ INNER JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE '%foo%')",
         );
     }
 
@@ -569,7 +571,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.id IN (1, 2)',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.id IN (1, 2)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.id IN (1, 2)',
         );
     }
 
@@ -577,7 +579,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :id NOT IN (1)',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE ? NOT IN (1)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE ? NOT IN (1)',
         );
     }
 
@@ -658,7 +660,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE (u.id >= (SELECT u2.id FROM Doctrine\Tests\Models\CMS\CmsUser u2 WHERE u2.name = :name)) AND (u.id <= (SELECT u3.id FROM Doctrine\Tests\Models\CMS\CmsUser u3 WHERE u3.name = :name))',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (c0_.id >= (SELECT c1_.id FROM cms_users c1_ WHERE c1_.name = ?)) AND (c0_.id <= (SELECT c2_.id FROM cms_users c2_ WHERE c2_.name = ?))',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (c0_.id >= (SELECT c1_.id FROM cms_users c1_ WHERE c1_.name = ?)) AND (c0_.id <= (SELECT c2_.id FROM cms_users c2_ WHERE c2_.name = ?))',
         );
     }
 
@@ -667,7 +669,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         // "Get all users who have $phone as a phonenumber." (*cough* doesnt really make sense...)
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.phonenumbers');
 
-        $phone              = new CmsPhonenumber();
+        $phone = new CmsPhonenumber();
         $phone->phonenumber = 101;
         $q->setParameter('param', $phone);
 
@@ -682,7 +684,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         // "Get all users who are members of $group."
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.groups');
 
-        $group     = new CmsGroup();
+        $group = new CmsGroup();
         $group->id = 101;
         $q->setParameter('param', $group);
 
@@ -696,9 +698,9 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $q = $this->entityManager->createQuery('SELECT u.id FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE :param MEMBER OF u.groups');
 
-        $group      = new CmsGroup();
-        $group->id  = 101;
-        $group2     = new CmsGroup();
+        $group = new CmsGroup();
+        $group->id = 101;
+        $group2 = new CmsGroup();
         $group2->id = 105;
         $q->setParameter('param', [$group, $group2]);
 
@@ -712,7 +714,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         // "Get all persons who have $person as a friend."
         // Tough one: Many-many self-referencing ("friends") with class table inheritance
-        $q      = $this->entityManager->createQuery('SELECT p FROM Doctrine\Tests\Models\Company\CompanyPerson p WHERE :param MEMBER OF p.friends');
+        $q = $this->entityManager->createQuery('SELECT p FROM Doctrine\Tests\Models\Company\CompanyPerson p WHERE :param MEMBER OF p.friends');
         $person = new CompanyPerson();
         $this->entityManager->getClassMetadata($person::class)->setIdentifierValues($person, ['id' => 101]);
         $q->setParameter('param', $person);
@@ -765,8 +767,8 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function testExistsExpressionInWhereCorrelatedSubqueryAssocCondition(): void
     {
         $this->assertSqlGeneration(
-            // DQL
-            // The result of this query consists of all employees whose spouses are also employees.
+        // DQL
+        // The result of this query consists of all employees whose spouses are also employees.
             'SELECT DISTINCT emp FROM Doctrine\Tests\Models\CMS\CmsEmployee emp
                 WHERE EXISTS (
                     SELECT spouseEmp
@@ -780,8 +782,8 @@ class SelectSqlGenerationTest extends OrmTestCase
     public function testExistsExpressionWithSimpleSelectReturningScalar(): void
     {
         $this->assertSqlGeneration(
-            // DQL
-            // The result of this query consists of all employees whose spouses are also employees.
+        // DQL
+        // The result of this query consists of all employees whose spouses are also employees.
             'SELECT DISTINCT emp FROM Doctrine\Tests\Models\CMS\CmsEmployee emp
                 WHERE EXISTS (
                     SELECT 1
@@ -798,7 +800,7 @@ class SelectSqlGenerationTest extends OrmTestCase
             ->createQuery('SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u')
             ->setMaxResults(10);
 
-        self::assertEquals('SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LIMIT 10', $q->getSql());
+        self::assertEquals('SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LIMIT 10', $q->getSql());
     }
 
     public function testLimitAndOffsetFromQueryClass(): void
@@ -812,8 +814,8 @@ class SelectSqlGenerationTest extends OrmTestCase
         self::assertThat(
             $q->getSql(),
             self::logicalOr(
-                self::identicalTo('SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LIMIT 10'),
-                self::identicalTo('SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LIMIT 10 OFFSET 0'),
+                self::identicalTo('SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LIMIT 10'),
+                self::identicalTo('SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LIMIT 10 OFFSET 0'),
             ),
         );
     }
@@ -822,7 +824,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE SIZE(u.phonenumbers) > 1',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) > 1',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) > 1',
         );
     }
 
@@ -830,7 +832,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE SIZE(u.groups) > 1',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_users_groups c1_ WHERE c1_.user_id = c0_.id) > 1',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_users_groups c1_ WHERE c1_.user_id = c0_.id) > 1',
         );
     }
 
@@ -838,11 +840,11 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.phonenumbers IS EMPTY',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) = 0',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) = 0',
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.phonenumbers IS NOT EMPTY',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) > 0',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (SELECT COUNT(*) FROM cms_phonenumbers c1_ WHERE c1_.user_id = c0_.id) > 0',
         );
     }
 
@@ -850,7 +852,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'select u from Doctrine\Tests\Models\CMS\CmsUser u where u.id > 10 and u.id < 42 and ((u.id * 2) > 5)',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.id > 10 AND c0_.id < 42 AND ((c0_.id * 2) > 5)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.id > 10 AND c0_.id < 42 AND ((c0_.id * 2) > 5)',
         );
     }
 
@@ -858,7 +860,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'select u from Doctrine\Tests\Models\CMS\CmsUser u where (u.id > 10) and (u.id < 42 and ((u.id * 2) > 5)) or u.id <> 42',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (c0_.id > 10) AND (c0_.id < 42 AND ((c0_.id * 2) > 5)) OR c0_.id <> 42',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (c0_.id > 10) AND (c0_.id < 42 AND ((c0_.id * 2) > 5)) OR c0_.id <> 42',
         );
     }
 
@@ -866,7 +868,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'select u from Doctrine\Tests\Models\CMS\CmsUser u where (u.id > 10) and (u.id between 1 and 10 or u.id in (1, 2, 3, 4, 5))',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (c0_.id > 10) AND (c0_.id BETWEEN 1 AND 10 OR c0_.id IN (1, 2, 3, 4, 5))',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (c0_.id > 10) AND (c0_.id BETWEEN 1 AND 10 OR c0_.id IN (1, 2, 3, 4, 5))',
         );
     }
 
@@ -874,7 +876,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'select u, size(u.articles) as numArticles from Doctrine\Tests\Models\CMS\CmsUser u order by numArticles',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, (SELECT COUNT(*) FROM cms_articles c1_ WHERE c1_.user_id = c0_.id) AS sclr_4, c0_.email_id AS email_id_5 FROM cms_users c0_ ORDER BY sclr_4 ASC',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, (SELECT COUNT(*) FROM cms_articles c1_ WHERE c1_.user_id = c0_.id) AS sclr_5, c0_.email_id AS email_id_6 FROM cms_users c0_ ORDER BY sclr_5 ASC',
         );
     }
 
@@ -946,7 +948,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u LEFT JOIN u.address a WHERE a.id IS NULL',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LEFT JOIN cms_addresses c1_ ON c0_.id = c1_.user_id WHERE c1_.id IS NULL',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LEFT JOIN cms_addresses c1_ ON c0_.id = c1_.user_id WHERE c1_.id IS NULL',
         );
     }
 
@@ -978,7 +980,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u LEFT JOIN u.articles a WITH a.topic LIKE u.name',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE c0_.name)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic LIKE c0_.name)',
         );
     }
 
@@ -996,7 +998,7 @@ class SelectSqlGenerationTest extends OrmTestCase
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u LEFT JOIN u.articles a WITH a.topic NOT LIKE u.name',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic NOT LIKE c0_.name)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LEFT JOIN cms_articles c1_ ON c0_.id = c1_.user_id AND (c1_.topic NOT LIKE c0_.name)',
         );
     }
 
@@ -1027,7 +1029,7 @@ class SelectSqlGenerationTest extends OrmTestCase
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.username = 'gblanco'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR UPDATE",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR UPDATE",
             [ORMQuery::HINT_LOCK_MODE => LockMode::PESSIMISTIC_WRITE],
         );
     }
@@ -1040,7 +1042,7 @@ class SelectSqlGenerationTest extends OrmTestCase
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.username = 'gblanco'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR SHARE",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR SHARE",
             [ORMQuery::HINT_LOCK_MODE => LockMode::PESSIMISTIC_READ],
         );
     }
@@ -1051,7 +1053,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.username = 'gblanco'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.username = 'gblanco'",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.username = 'gblanco'",
             [ORMQuery::HINT_LOCK_MODE => LockMode::NONE],
         );
     }
@@ -1061,7 +1063,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.id = ?1 OR u.id = ?2 OR u.id = ?3 OR u.id = ?4 OR u.id = ?5 OR u.id = ?6 OR u.id = ?7 OR u.id = ?8 OR u.id = ?9 OR u.id = ?10 OR u.id = ?11',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ?',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ? OR c0_.id = ?',
         );
     }
 
@@ -1073,7 +1075,7 @@ class SelectSqlGenerationTest extends OrmTestCase
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.username = 'gblanco'",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.username = 'gblanco' LOCK IN SHARE MODE",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.username = 'gblanco' LOCK IN SHARE MODE",
             [ORMQuery::HINT_LOCK_MODE => LockMode::PESSIMISTIC_READ],
         );
     }
@@ -1086,7 +1088,7 @@ class SelectSqlGenerationTest extends OrmTestCase
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE u.username = 'gblanco'",
-            "SELECT c0_.id AS ID_0, c0_.status AS STATUS_1, c0_.username AS USERNAME_2, c0_.name AS NAME_3, c0_.email_id AS EMAIL_ID_4 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR UPDATE",
+            "SELECT c0_.id AS ID_0, c0_.reference AS REFERENCE_1, c0_.status AS STATUS_2, c0_.username AS USERNAME_3, c0_.name AS NAME_4, c0_.email_id AS EMAIL_ID_5 FROM cms_users c0_ WHERE c0_.username = 'gblanco' FOR UPDATE",
             [ORMQuery::HINT_LOCK_MODE => LockMode::PESSIMISTIC_READ],
         );
     }
@@ -1178,7 +1180,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT uo, (SELECT ui.name FROM Doctrine\Tests\Models\CMS\CmsUser ui WHERE ui.id = uo.id) AS bar FROM Doctrine\Tests\Models\CMS\CmsUser uo',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id) AS sclr_4, c0_.email_id AS email_id_5 FROM cms_users c0_',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id) AS sclr_5, c0_.email_id AS email_id_6 FROM cms_users c0_',
         );
     }
 
@@ -1186,7 +1188,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT uo, (SELECT ui.name FROM Doctrine\Tests\Models\CMS\CmsUser ui WHERE ui.id = uo.id AND ui.name IN (SELECT uii.name FROM Doctrine\Tests\Models\CMS\CmsUser uii)) AS bar FROM Doctrine\Tests\Models\CMS\CmsUser uo',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id AND c1_.name IN (SELECT c2_.name FROM cms_users c2_)) AS sclr_4, c0_.email_id AS email_id_5 FROM cms_users c0_',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id AND c1_.name IN (SELECT c2_.name FROM cms_users c2_)) AS sclr_5, c0_.email_id AS email_id_6 FROM cms_users c0_',
         );
     }
 
@@ -1194,7 +1196,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT uo, (SELECT ui.name FROM Doctrine\Tests\Models\CMS\CmsUser ui WHERE ui.id = uo.id) AS bar FROM Doctrine\Tests\Models\CMS\CmsUser uo WHERE bar = ?0',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id) AS sclr_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE sclr_4 = ?',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, (SELECT c1_.name FROM cms_users c1_ WHERE c1_.id = c0_.id) AS sclr_5, c0_.email_id AS email_id_6 FROM cms_users c0_ WHERE sclr_5 = ?',
         );
     }
 
@@ -1550,12 +1552,12 @@ class SelectSqlGenerationTest extends OrmTestCase
         );
     }
 
-     #[Group('DDC-1430')]
+    #[Group('DDC-1430')]
     public function testGroupByAllFieldsWhenObjectHasForeignKeys(): void
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u GROUP BY u',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ GROUP BY c0_.id, c0_.status, c0_.username, c0_.name, c0_.email_id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ GROUP BY c0_.id, c0_.reference, c0_.status, c0_.username, c0_.name, c0_.email_id',
         );
 
         $this->assertSqlGeneration(
@@ -1569,7 +1571,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u, u.status AS st FROM Doctrine\Tests\Models\CMS\CmsUser u GROUP BY st',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.status AS status_4, c0_.email_id AS email_id_5 FROM cms_users c0_ GROUP BY c0_.status',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.status AS status_5, c0_.email_id AS email_id_6 FROM cms_users c0_ GROUP BY c0_.status',
         );
     }
 
@@ -1578,7 +1580,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u AS user FROM Doctrine\Tests\Models\CMS\CmsUser u GROUP BY user',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ GROUP BY id_0, status_1, username_2, name_3',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ GROUP BY id_0, reference_1, status_2, username_3, name_4',
         );
     }
 
@@ -1587,7 +1589,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT BIT_OR(4,2), BIT_AND(4,2), u FROM Doctrine\Tests\Models\CMS\CmsUser u',
-            'SELECT (4 | 2) AS sclr_0, (4 & 2) AS sclr_1, c0_.id AS id_2, c0_.status AS status_3, c0_.username AS username_4, c0_.name AS name_5, c0_.email_id AS email_id_6 FROM cms_users c0_',
+            'SELECT (4 | 2) AS sclr_0, (4 & 2) AS sclr_1, c0_.id AS id_2, c0_.reference AS reference_3, c0_.status AS status_4, c0_.username AS username_5, c0_.name AS name_6, c0_.email_id AS email_id_7 FROM cms_users c0_',
         );
         $this->assertSqlGeneration(
             'SELECT BIT_OR(u.id,2), BIT_AND(u.id,2) FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE BIT_OR(u.id,2) > 0',
@@ -1608,15 +1610,15 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u where ( (u.id + u.id) * u.id ) > 100',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE ((c0_.id + c0_.id) * c0_.id) > 100',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE ((c0_.id + c0_.id) * c0_.id) > 100',
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u where (u.id + u.id) * u.id > 100',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE (c0_.id + c0_.id) * c0_.id > 100',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE (c0_.id + c0_.id) * c0_.id > 100',
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u where 100 < (u.id + u.id) * u.id ',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE 100 < (c0_.id + c0_.id) * c0_.id',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE 100 < (c0_.id + c0_.id) * c0_.id',
         );
     }
 
@@ -1633,27 +1635,27 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE u1.name IN ( SELECT TRIM(u2.name) FROM Doctrine\Tests\Models\CMS\CmsUser u2 )',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.name IN (SELECT TRIM(c1_.name) AS sclr_5 FROM cms_users c1_)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.name IN (SELECT TRIM(c1_.name) AS sclr_6 FROM cms_users c1_)',
         );
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE u1.name IN ( SELECT TRIM(u2.name) FROM Doctrine\Tests\Models\CMS\CmsUser u2  WHERE LOWER(u2.name) LIKE \'%fabio%\')',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.name IN (SELECT TRIM(c1_.name) AS sclr_5 FROM cms_users c1_ WHERE LOWER(c1_.name) LIKE \'%fabio%\')',
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.name IN (SELECT TRIM(c1_.name) AS sclr_6 FROM cms_users c1_ WHERE LOWER(c1_.name) LIKE '%fabio%')",
         );
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE u1.email IN ( SELECT TRIM(IDENTITY(u2.email)) FROM Doctrine\Tests\Models\CMS\CmsUser u2 )',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.email_id IN (SELECT TRIM(c1_.email_id) AS sclr_5 FROM cms_users c1_)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.email_id IN (SELECT TRIM(c1_.email_id) AS sclr_6 FROM cms_users c1_)',
         );
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE u1.email IN ( SELECT IDENTITY(u2.email) FROM Doctrine\Tests\Models\CMS\CmsUser u2 )',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.email_id IN (SELECT c1_.email_id AS sclr_5 FROM cms_users c1_)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.email_id IN (SELECT c1_.email_id AS sclr_6 FROM cms_users c1_)',
         );
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE COUNT(u1.id) = ( SELECT SUM(u2.id) FROM Doctrine\Tests\Models\CMS\CmsUser u2 )',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE COUNT(c0_.id) = (SELECT SUM(c1_.id) AS sclr_5 FROM cms_users c1_)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE COUNT(c0_.id) = (SELECT SUM(c1_.id) AS sclr_6 FROM cms_users c1_)',
         );
         $this->assertSqlGeneration(
             'SELECT u1 FROM Doctrine\Tests\Models\CMS\CmsUser u1 WHERE COUNT(u1.id) <= ( SELECT SUM(u2.id) + COUNT(u2.email) FROM Doctrine\Tests\Models\CMS\CmsUser u2 )',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE COUNT(c0_.id) <= (SELECT SUM(c1_.id) + COUNT(c1_.email_id) AS sclr_5 FROM cms_users c1_)',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE COUNT(c0_.id) <= (SELECT SUM(c1_.id) + COUNT(c1_.email_id) AS sclr_6 FROM cms_users c1_)',
         );
     }
 
@@ -1696,37 +1698,37 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE IDENTITY(u.email) IS NULL',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.email_id IS NULL',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.email_id IS NULL',
         );
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE NULLIF(u.name, 'FabioBatSilva') IS NULL AND IDENTITY(u.email) IS NOT NULL",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE NULLIF(c0_.name, 'FabioBatSilva') IS NULL AND c0_.email_id IS NOT NULL",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE NULLIF(c0_.name, 'FabioBatSilva') IS NULL AND c0_.email_id IS NOT NULL",
         );
 
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE IDENTITY(u.email) IS NOT NULL',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE c0_.email_id IS NOT NULL',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE c0_.email_id IS NOT NULL',
         );
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE NULLIF(u.name, 'FabioBatSilva') IS NOT NULL",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE NULLIF(c0_.name, 'FabioBatSilva') IS NOT NULL",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE NULLIF(c0_.name, 'FabioBatSilva') IS NOT NULL",
         );
 
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE COALESCE(u.name, u.id) IS NOT NULL',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE COALESCE(c0_.name, c0_.id) IS NOT NULL',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE COALESCE(c0_.name, c0_.id) IS NOT NULL',
         );
 
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE COALESCE(u.id, IDENTITY(u.email)) IS NOT NULL',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE COALESCE(c0_.id, c0_.email_id) IS NOT NULL',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE COALESCE(c0_.id, c0_.email_id) IS NOT NULL',
         );
 
         $this->assertSqlGeneration(
             "SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u WHERE COALESCE(IDENTITY(u.email), NULLIF(u.name, 'FabioBatSilva')) IS NOT NULL",
-            "SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ WHERE COALESCE(c0_.email_id, NULLIF(c0_.name, 'FabioBatSilva')) IS NOT NULL",
+            "SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ WHERE COALESCE(c0_.email_id, NULLIF(c0_.name, 'FabioBatSilva')) IS NOT NULL",
         );
     }
 
@@ -1800,15 +1802,15 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u ORDER BY u.id + 1 ',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ ORDER BY c0_.id + 1 ASC',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ ORDER BY c0_.id + 1 ASC',
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u ORDER BY ( ( (u.id + 1) * (u.id - 1) ) / 2)',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ ORDER BY (((c0_.id + 1) * (c0_.id - 1)) / 2) ASC',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ ORDER BY (((c0_.id + 1) * (c0_.id - 1)) / 2) ASC',
         );
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u ORDER BY ((u.id + 5000) * u.id + 3) ',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ ORDER BY ((c0_.id + 5000) * c0_.id + 3) ASC',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ ORDER BY ((c0_.id + 5000) * c0_.id + 3) ASC',
         );
     }
 
@@ -1816,7 +1818,7 @@ class SelectSqlGenerationTest extends OrmTestCase
     {
         $this->assertSqlGeneration(
             'SELECT u FROM Doctrine\Tests\Models\CMS\CmsUser u ORDER BY CONCAT(u.username, u.name) ',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, c0_.email_id AS email_id_4 FROM cms_users c0_ ORDER BY c0_.username || c0_.name ASC',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, c0_.email_id AS email_id_5 FROM cms_users c0_ ORDER BY c0_.username || c0_.name ASC',
         );
     }
 
@@ -1956,7 +1958,7 @@ SQL,
         );
     }
 
-     #[Group('DDC-2188')]
+    #[Group('DDC-2188')]
     public function testArithmeticPriority(): void
     {
         $this->assertSqlGeneration(
@@ -2102,7 +2104,7 @@ SQL,
     {
         $this->assertSqlGeneration(
             'SELECT u AS user, SUM(a.id) AS score FROM Doctrine\Tests\Models\CMS\CmsUser u LEFT JOIN Doctrine\Tests\Models\CMS\CmsAddress a WITH a.user = u GROUP BY u HAVING score IS NOT NULL AND score >= 5',
-            'SELECT c0_.id AS id_0, c0_.status AS status_1, c0_.username AS username_2, c0_.name AS name_3, SUM(c1_.id) AS sclr_4, c0_.email_id AS email_id_5 FROM cms_users c0_ LEFT JOIN cms_addresses c1_ ON (c1_.user_id = c0_.id) GROUP BY c0_.id, c0_.status, c0_.username, c0_.name, c0_.email_id HAVING sclr_4 IS NOT NULL AND sclr_4 >= 5',
+            'SELECT c0_.id AS id_0, c0_.reference AS reference_1, c0_.status AS status_2, c0_.username AS username_3, c0_.name AS name_4, SUM(c1_.id) AS sclr_5, c0_.email_id AS email_id_6 FROM cms_users c0_ LEFT JOIN cms_addresses c1_ ON (c1_.user_id = c0_.id) GROUP BY c0_.id, c0_.reference, c0_.status, c0_.username, c0_.name, c0_.email_id HAVING sclr_5 IS NOT NULL AND sclr_5 >= 5',
         );
     }
 
@@ -2157,6 +2159,7 @@ class MyAbsFunction extends FunctionNode
         $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }
+
 #[Entity]
 class DDC1384Model
 {
@@ -2180,7 +2183,8 @@ class DDC1474Entity
     public function __construct(
         #[Column(type: 'float')]
         private string $value,
-    ) {
+    )
+    {
     }
 
     public function getId(): int

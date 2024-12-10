@@ -475,7 +475,7 @@ SQL
 
         $selectClause = $rsm->generateSelectClause();
 
-        $this->assertSQLEquals('u.id AS id, u.status AS status, u.username AS username, u.name AS name, u.email_id AS email_id', $selectClause);
+        $this->assertSQLEquals('u.id AS id, u.reference as reference, u.status AS status, u.username AS username, u.name AS name, u.email_id AS email_id', $selectClause);
     }
 
     #[Group('DDC-2055')]
@@ -489,7 +489,7 @@ SQL
 
         $selectClause = $rsm->generateSelectClause();
 
-        $this->assertSQLEquals('u.id AS id1, u.status AS status, u.username AS username2, u.name AS name, u.email_id AS email_id', $selectClause);
+        $this->assertSQLEquals('u.id AS id1, u.reference as reference, u.status AS status, u.username AS username2, u.name AS name, u.email_id AS email_id', $selectClause);
     }
 
     #[Group('DDC-2055')]
@@ -500,7 +500,7 @@ SQL
 
         $selectClause = $rsm->generateSelectClause(['u' => 'u1']);
 
-        $this->assertSQLEquals('u1.id AS id, u1.status AS status, u1.username AS username, u1.name AS name, u1.email_id AS email_id', $selectClause);
+        $this->assertSQLEquals('u1.id AS id, u1.reference as reference, u1.status AS status, u1.username AS username, u1.name AS name, u1.email_id AS email_id', $selectClause);
     }
 
     #[Group('DDC-2055')]
@@ -511,7 +511,7 @@ SQL
 
         $selectClause = $rsm->generateSelectClause();
 
-        $this->assertSQLEquals('u.id AS id0, u.status AS status1, u.username AS username2, u.name AS name3, u.email_id AS email_id4', $selectClause);
+        $this->assertSQLEquals('u.id AS id0, u.reference as reference1, u.status as status2, u.username as username3, u.name as name4, u.email_id as email_id5', $selectClause);
     }
 
     #[Group('DDC-2055')]
@@ -520,7 +520,7 @@ SQL
         $rsm = new ResultSetMappingBuilder($this->_em, ResultSetMappingBuilder::COLUMN_RENAMING_INCREMENT);
         $rsm->addRootEntityFromClassMetadata(CmsUser::class, 'u');
 
-        $this->assertSQLEquals('u.id AS id0, u.status AS status1, u.username AS username2, u.name AS name3, u.email_id AS email_id4', (string) $rsm);
+        $this->assertSQLEquals('u.id AS id0, u.reference as reference1, u.status as status2, u.username as username3, u.name as name4, u.email_id as email_id5', (string) $rsm);
     }
 
     #[Group('DDC-3899')]
