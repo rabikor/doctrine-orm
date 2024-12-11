@@ -1932,9 +1932,6 @@ class BasicEntityPersister implements EntityPersister
 
     /**
      * @psalm-return ArrayParameterType::*
-     *
-     * @throws QueryException
-     * @throws Exception
      */
     private function getArrayBindingType(ParameterType|int|string $type): ArrayParameterType|int
     {
