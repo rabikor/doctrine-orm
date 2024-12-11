@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\Common\Collections\Order;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\LockMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -1930,7 +1929,10 @@ class BasicEntityPersister implements EntityPersister
         return $types;
     }
 
-    /** @phpstan-return ArrayParameterType::* */
+    /**
+     * @psalm-return ArrayParameterType::*
+     * @throw QueryException˚
+     */
     private function getArrayBindingType(ParameterType|int|string $type): ArrayParameterType|int
     {
         if (! $type instanceof ParameterType) {
