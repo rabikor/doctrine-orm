@@ -1930,9 +1930,7 @@ class BasicEntityPersister implements EntityPersister
         return $types;
     }
 
-    /**
-     * @psalm-return ArrayParameterType::*
-     */
+    /** @phpstan-return ArrayParameterType::* */
     private function getArrayBindingType(ParameterType|int|string $type): ArrayParameterType|int
     {
         if (! $type instanceof ParameterType) {
